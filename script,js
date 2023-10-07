@@ -1,0 +1,46 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const taskForm = document.getElementById("task-form");
+    const taskList = document.getElementById("task-list");
+
+    // Event listener for adding a new task
+    taskForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const taskInput = document.getElementById("task");
+        const taskText = taskInput.value.trim();
+
+        if (taskText !== "") {
+            addTask(taskText);
+            taskInput.value = "";
+        }
+    });
+
+    // Function to add a new task
+    function addTask(taskText) {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `
+            ${taskText}
+            <button class="delete">Delete</button>
+            <button class="edit">Edit</button>
+        `;
+        
+        // Event listener for deleting a task
+        listItem.querySelector(".delete").addEventListener("click", function () {
+            taskList.removeChild(listItem);
+        });
+
+        // Event listener for editing a task
+        listItem.querySelector(".edit").addEventListener("click", function () {
+            const newText = prompt("Edit the task:", taskText);
+            if (newText !== null) {
+                taskText = newText.trim();
+                listItem.innerHTML = `
+                    ${taskText}
+                    <button class="delete">Delete</button>
+                    <button class="edit">Edit</button>
+                `;
+            }
+        });
+
+        taskList.appendChild(listItem);
+    }
+});
